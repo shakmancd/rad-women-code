@@ -1,0 +1,85 @@
+@isTest
+
+private class StockItemTriggerHandler_Test {
+    @testSetup
+    static void testDataSetup(){
+        Stock_Item__c si = new Stock_Item__c();
+        si.Item_Name__c = 'test item';
+        si.Minimum_Stock_Level__c = 15;
+        si.Stock_on_Hand__c = 10;
+        insert si;
+    }
+    
+    @isTest
+    static void StockItemTriggerHandleronBeforeDeletePositiveTest() { // Postive test of the Before Delete trigger's effects
+        Stock_Item__c si = [SELECT Id FROM Stock_Item__c];
+        
+        //Test.startTest();
+        delete si;
+        //Test.stopTest();
+        
+        //Find the case created by the SI deletion, there should be only one
+        Case validateCase = [SELECT Id,Subject FROM Case WHERE Subject LIKE 'test%'];
+        system.debug(validateCase);
+        //The expected condition comes first, then the condition you're testing
+        System.assertEquals(1, validateCase.Cases.size(), 'expected the trigger to create one case');
+    }
+    
+    @isTest
+    static void StockItemTriggerHandleronBeforeDeleteNegativeTest() { // Negative test of the Before Delete trigger's effects
+        Stock_Item__c si = [SELECT Id FROM Stock_Item__c];
+        si.Stock_on_Hand__c = 0;
+        //Test.startTest();
+        delete si;
+        //Test.stopTest();
+        
+        //Look for the case created by the SI deletion, there should not be one
+        Case validateCase = [SELECT Id,Subject FROM Case WHERE Subject LIKE 'test%'];
+        
+        //The expected condition comes first, then the condition you're testing
+        System.assertEquals(0, validateCase.cases.size(), 'expected the trigger to not create a case');
+    }
+    
+    @isTest
+    static void StockItemTriggerHandleronBeforeInsertNegativeTest() { //Insert a stock item with the same name to provoke a duplicate error
+        Stock_Item__c si = new Stock_Item__c();//expecting an exception means it's a negative test
+        Boolean errVar = false; //declare a boolean variable and set to false to note when the exception is caught
+        try {
+            si.Item_Name__c = 'test item';
+            insert si;  
+        } catch(Exception error) { //telling the system to catch Every exception ex. catch red t shirt v catch t shirt - should be dml exception
+          system.debug('####'+error); 
+            if (error.getMessage().contains('A Stock Item with this name already exists.')){
+                errVar = true;
+            } 
+        }
+        System.assert(errVar);
+        /*        //Select the contact with cases, there should be none
+Contact validateContact = [SELECT Id, (SELECT Id FROM Cases) FROM Contact WHERE Id = :c.Id];
+
+//The expected condition comes first, then the condition you're testing
+System.assertEquals(0, validateContact.Cases.size(), 'expected the trigger NOT to create a case because the email was specified.');
+}
+
+/*    @isTest
+static void sampleFailingTestMethod() {
+//Insert a contact WITH an account but no email and no cases and verify that no case is created(since there is an Account)
+
+Account a = new Account();
+a.Name = 'Sample Account';
+insert a;
+
+Contact c = [SELECT id FROM Contact];
+Test.startTest();
+c.AccountId = a.Id;
+update c;
+Test.stopTest();
+//Select the contact with cases, there should be none
+Contact validateContact = [SELECT Id, (SELECT Id FROM Cases) FROM Contact WHERE Id = :c.Id];
+
+//The expected condition comes first, then the condition you're testing
+System.assertEquals(0, validateContact.cases.size());
+
+}*/
+    }
+}
