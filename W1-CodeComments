@@ -1,0 +1,10 @@
+   public static void youDoThisPart() {
+        /*Your assignment is to write two comments below this one.  They can say whatever you like.  
+        Make one as a single line comment using the // notation.  Make the other one a multi line comment using the /* notation.
+        When you're done, save this file so that it is compiled and stored in Salesforce.  */
+	//This is a comment - it helps readers understand the purpose of code
+	/*  Multi-line comments
+	 * are useful when 
+	 * you have a lot to say
+	 * and don't want to keep typing 
+	 * two slashes on every line*/
