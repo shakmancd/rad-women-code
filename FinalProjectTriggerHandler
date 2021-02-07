@@ -1,0 +1,42 @@
+public with sharing class StockItemTriggerHandler {
+    
+    public static void onBeforeDelete(Stock_Item__c[] sis) {
+        /* Before a Stock Item is deleted, make sure that the stock on hand is at 0.  
+* If it is not, Create a case so that someone is alerted.
+The case should indicate the name of the item that was deleted, the id, and the number of stock that were on hand when it was deleted
+in the description.  The rest of the case can be configured however you think best.
+You can check out your Week 6 Bulkification homework on the AccountTrigger for an example of a similar pattern.*/
+        List<Case> newCases = new List<Case>();
+        for(Stock_Item__c si : sis) {
+            if (si.Stock_on_Hand__c != 0) {
+                Case cse = new Case();
+                cse.Status = 'New';
+                cse.Origin = 'Item deleted with Stock on Hand';
+                cse.Subject = si.Item_Name__c + 'Clean up Stock Item Record';
+                cse.Description = si.Item_Name__c + si.Id + si.Stock_on_Hand__c;
+                newCases.add(cse);
+            }
+        }
+        insert newCases;
+    }
+    /* Before a Stock Item can be created, check that there is not already a stock item record with a matching name.
+If there is already a Stock Item with that name, change the name so that it is the name entered, plus the words “Duplicate Item”.
+We have a process in place to check for these elsewhere.
+Alternative (Bonus): Instead of renaming, add a Trigger Exception error as described here 
+https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_triggers_exceptions.htm
+*/
+    //check to make sure that we don't have a stock item that matches in the existing database, based on item name
+    //check to make sure that data for import doesn't contain duplicates
+    
+    public static void onBeforeInsert(Stock_Item__c[] incomingStockItems) {    
+        Map<String, Stock_Item__c> incomingStockItemsMap = new Map<String, Stock_Item__c>();
+        for (Stock_Item__c si : incomingStockItems) {
+            //add current stock item to incoming stock items map
+            incomingStockItemsMap.put(si.Item_Name__c, si);
+        }
+                
+        for (Stock_Item__c si : [SELECT Item_Name__c FROM Stock_Item__c WHERE Item_Name__c IN :incomingStockItemsMap.KeySet()]) {
+            incomingStockItemsMap.get(si.Item_Name__c).addError('A Stock Item with this name already exists.');
+        }
+    }
+}
