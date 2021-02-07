@@ -1,0 +1,97 @@
+public with sharing class WeekFiveHomework {
+    
+    public static void setsReview(){
+        
+        //Your assignment: Play with Sets!
+        
+        // 1.  Create a set of Strings and add at least 5 entries
+        Set<String> shakBar = new Set<String>();
+        shakBar.add('Glenlivet 18');
+        shakBar.add('Glen Moray 14');
+        shakBar.add('Balvenie 14 Peat Week');
+        shakBar.add('Creag Isle 25');
+        shakBar.add('Laphroaig Triple Wood');
+        //Use System.debug to print out the size of your set
+        System.debug('How many types of delicious Scotch are sitting on my bar?' + shakBar.size());
+        //Add an item to your set that already exists
+        shakBar.add('Glenlivet 18');
+        //Use System.debug to print out the size again,  they should be the same!
+        System.debug('How many types of delicious Scotch are sitting on my bar now?' + shakBar.size());
+        
+        
+        // 2.  Bonus Points!  Check out the documentation on Sets. Go to the section titled Set Methods.   
+        // Documentation: https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_set.htm
+        //Pick one of the methods to try out and print the results to the debug log.
+        shakBar.remove('Laphroaig Triple Wood');
+        System.debug('How many types of delicious Scotch are sitting on my bar now?' + shakBar.size());
+        //Can you print out a boolean that indicates if the set is empty?
+        Boolean result = shakBar.isEmpty();
+        //System.assertEquals(true, result); I don't know what this is but it was in the documentation.  
+        //I got an error so I commented it out and it ran successfullly without it.
+        //What is it supposed to do?  I googled it and it has something to do with running tests   
+        System.debug('Someone drank all of my scotch and I have no more:' + result);
+        //Can you clone it?
+        Set<String> shakBar2 = shakBar.clone();
+        System.debug('Here is a list of my favorite scotches:' + shakBar2); 
+        }
+    
+    public static void mapsReview () {
+        
+        //Time to get creative!  
+        
+        // 1. Create a new Map.  You can use whatever primitives/object types you like, as long as they make sense.
+        // Try to add at least 5 Key/value pairs.
+        Map<String, String> planesByTail = new Map<String, String>();
+        planesByTail.put('N107TX', 'Diamond DA-20');
+        planesByTail.put('N62475', 'Cessna 172');
+        planesByTail.put('N4162Z', 'Piper Saratoga Turbo');
+        planesByTail.put('N9093K', 'Piper Archer');
+        planesByTail.put('N40724', 'Piper Arrow');
+        planesByTail.put('UR-PAPG', 'Aeroprakt-22LS');
+        //Now, in the debug log, print out  a list of the values.
+        List<String> planes = new List<String>();
+        planes = planesByTail.values();
+        System.Debug('What models of planes have I flown:' + planes);
+        //Can you print out a set of the Keys?
+        Set <String> tailNum = new Set<String>();
+        tailNum = planesByTail.keySet();
+        System.Debug('Tail numbers for some planes I have flown' + tailNum);
+        
+        // 2. Bonus!  Check out the documentation on Maps. Go to the section titled Map Methods.  Manipulate the Map using one of the methods defined in the documentation
+        // Documentation: https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_map.htm
+        Boolean empty = planesByTail.isEmpty();
+        System.Debug('My map is empty:' + empty);
+        // Hint: Can you remove an entry using the key?
+        // This looks right in the debug log, but I don't understand why line 68 is necessary or what it's telling the system to do.
+        String myPlane = planesByTail.remove('N9093K');
+        String value = planesByTail.get('N9093K');
+        List<String> planes2 = new List<String>();
+        planes2 = planesByTail.values();
+        System.Debug('Updated list of planes' + planes2);
+        //Can you clear out the map without deleting it?
+        planesByTail.clear();
+        Boolean empty2 = planesByTail.isEmpty();
+        System.Debug('My map is empty:' + empty2);
+    }
+    
+    public static void listsReview() {
+        
+        // 1. Create a list of Strings.  Add at least 5 entries to the list, all in one line
+        List<String> shakTravel = new list<String>{'Jamaica','Ukraine','China','Germany','Peru'};
+            
+            // 2. Create a second list of Strings and add 5 or more entries to this list.
+            List<String> shakTravel2 = new list<String>{'France','Cuba','Costa Rica','Slovakia','Japan'};
+                
+                //3.  Bonus! Using the documentation on standard List methods from Salesforce, add the items from your first list, to your second list with one command
+                // Documentation: https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_methods_system_list.htm
+                //Adds all of the elements in the specified list to the list that calls the method. Both lists must be of the same type.
+                shakTravel2.addAll(shakTravel);
+        //4.  Can you now loop through your combined list and print it to the debug log?  (Hint:  Check the documentation!)
+        for (string c : shakTravel2) {
+            System.debug('Here is a country to which I have traveled:' + c);
+        }
+    }
+    
+    
+    
+}
