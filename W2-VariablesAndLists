@@ -1,0 +1,48 @@
+    public static void primitivesExercise() {
+        //You do this part!
+
+        //1.  Declare three primitives variables, an Integer, a String and a Decimal
+    Integer quatro;
+    String str;
+    Decimal dec;        
+        //2.  Assign values to your three new variables
+    quatro = 4;
+    str = 'Stringedy ding dong';
+    dec = 12.16;
+        //3.  Print out your variables to the debug log
+	System.debug(quatro); 
+  System.debug(str);     
+	System.debug(dec);
+        //4.  Declare an integer variable and assign a value in the same line
+	Integer cinco = 5;
+        //5.  Print out your integer to the debug log
+	System.debug(cinco); 
+    }
+    
+        public static void conditionalsExercise() {
+
+        Boolean result;
+
+        // 1. Write a comparison statement that evauates to false and assign the result to our result variable
+        //Don't forget to maintain indentation!
+			result = 4 < 3;
+
+        // 2. Declare another boolean variable and write a comparison that evaluates to true, assign it to your variable
+			Boolean newVar;
+        	newVar = 7 < 8;
+
+    }
+    
+        public static void listsExercise() {
+        //You do this part!
+
+        //1.  Declare a list of Strings called myStringList
+				List<String> myStringList;
+        //2.  Add three string values to your list and print it out in the debug log
+				myStringList = new List<String>{'Allison', 'Lizzy', 'Vika'};
+                System.debug(myStringList);
+        //3.  Print out the third value in your list of strings using list indexing.
+				System.debug(myStringList[2]);
+        //4.  Declare a list of integers and add the values 1,2,3,4,5 all in one line
+				List<Integer> numbers = new List<Integer>{1,2,3,4,5};
+    }
